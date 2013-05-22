@@ -1,0 +1,3 @@
+Running `sudo bash install.sh` should create an up-to-date-ish build of the ACMEPaaS stack in /usr/local/acmepaas.  We could use Chef or something, but @fizx wants to keep this more approachable, so idempotent bash script it is.
+
+You should start with a fresh 64bit Ubuntu 13.04 image.  If you're on EC2, we recommend ami-c30360aa.
