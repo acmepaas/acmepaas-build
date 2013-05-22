@@ -38,3 +38,15 @@ else
 	cd chronos
 fi
 mvn -DskipTests=true package
+cd ..
+
+if [ -d docker ]
+then
+	cd docker/docker
+	git pull origin master
+else
+	git clone https://github.com/dotcloud/docker.git
+	cd docker/docker
+fi
+go get
+go build
