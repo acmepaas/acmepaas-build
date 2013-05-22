@@ -17,11 +17,11 @@ apt-get -y install maven2 autoconf make gcc cpp patch python-dev git libtool gzi
 
 if [ -d mesos ]
 then
-	cd mesos
-	git pull origin trunk
+  cd mesos
+  git pull origin trunk
 else
-	git clone https://github.com/apache/mesos.git
-	cd mesos
+  git clone https://github.com/apache/mesos.git
+  cd mesos
 fi
 ./bootstrap && ./configure --with-included-zookeeper && make && make install
 cd src/python
@@ -31,22 +31,37 @@ cd ../../..
 export MESOS_NATIVE_LIBRARY=/usr/local/lib/libmesos.so
 if [ -d chronos ]
 then
-	cd chronos
-	git pull origin master
+  cd chronos
+  git pull origin master
 else
-	git clone https://github.com/airbnb/chronos.git
-	cd chronos
+  git clone https://github.com/airbnb/chronos.git
+  cd chronos
 fi
 mvn -DskipTests=true package
 cd ..
 
 if [ -d docker ]
 then
-	cd docker/docker
-	git pull origin master
+  cd docker/docker
+  git pull origin master
 else
-	git clone https://github.com/dotcloud/docker.git
-	cd docker/docker
+  git clone https://github.com/dotcloud/docker.git
+  cd docker/docker
 fi
 go get
 go build
+ln -nfs `pwd`/docker /usr/bin/docker
+cd ../..
+
+if [ -d acmepaas-inits ]
+then
+  cd acmepaas-inits
+  git pull origin master
+else
+  git clone https://github.com/acmepaas/acmepaas-inits.git
+  cd acmepaas-inits
+fi
+ls | xargs -n 1 -I % cp -f `pwd`/% /etc/init
+
+restart docker || start docker
+
